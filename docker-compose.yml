@@ -2,7 +2,7 @@ version: '2.3'
 
 services:
   client:
-    image: 'harbor.syncromatics.com/web/kafmesh-ui:${IMAGE_VERSION_SPECIFIC:-latest}'
+    image: 'syncromatics/kafmesh-ui:${IMAGE_VERSION_SPECIFIC:-latest}'
     build:
       context: .
       target: final-kafmesh-ui

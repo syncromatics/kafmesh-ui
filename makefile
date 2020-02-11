@@ -7,7 +7,7 @@ export DOCKER_REPOSITORY = syncromatics/
 
 .PHONY: build
 
-build: version clean
+build: clean
 	docker-compose \
 		-f docker-compose.yml \
 		pull \
@@ -34,6 +34,3 @@ ship: ship-image ship-chart
 
 ship-image:
 	docker-compose -f docker-compose.yml push
-
-version:
-	echo "##teamcity[buildNumber '$(VERSION)']"

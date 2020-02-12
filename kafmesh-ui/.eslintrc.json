@@ -1,17 +1,8 @@
 {
-  "extends": [
-    "react-app",
-    "airbnb",
-    "airbnb/hooks",
-    "prettier",
-    "prettier/react"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["react-app", "airbnb", "airbnb/hooks", "prettier", "prettier/react"],
+  "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": 1,
-    "import/prefer-default-export": 0,
     "no-unused-vars": [
       2,
       {
@@ -21,4 +12,4 @@
       }
     ]
   }
-},
+}

@@ -1,0 +1,15 @@
+{
+  "extends": ["react-app", "airbnb", "airbnb/hooks", "prettier", "prettier/react"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": 1,
+    "no-unused-vars": [
+      2,
+      {
+        "ignoreRestSiblings": true,
+        "vars": "local",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
+}

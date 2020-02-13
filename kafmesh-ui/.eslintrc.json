@@ -1,8 +1,9 @@
 {
+  "parser": "babel-eslint",
   "extends": ["react-app", "airbnb", "airbnb/hooks", "prettier", "prettier/react"],
-  "plugins": ["prettier"],
+  "plugins": ["compat", "prettier"],
   "rules": {
-    "prettier/prettier": 1,
+    "prettier/prettier": 2,
     "no-unused-vars": [
       2,
       {

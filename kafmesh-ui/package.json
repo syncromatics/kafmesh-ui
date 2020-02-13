@@ -18,9 +18,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --mode development --open --hot",
-    "build": "NODE_ENV=development webpack --mode production",
-    "storybook": "start-storybook -p 6007",
-    "build-storybook": "build-storybook"
+    "build": "NODE_ENV=production webpack --mode production",
+    "storybook": "start-storybook -p 6007"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -54,7 +53,7 @@
     "stylelint-a11y": "^1.2.2",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-recommended": "^3.0.0",
-    "stylelint-config-standard": "^19.0.0",
+    "stylelint-config-standard": "20.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-custom-processor-loader": "^0.6.0",
     "stylelint-high-performance-animation": "^1.4.0",

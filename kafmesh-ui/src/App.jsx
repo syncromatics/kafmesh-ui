@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import GlobalStyles from './styles/GlobalStyles';
 
 const PrettyColor = styled.span`
   color: red;
@@ -7,9 +8,12 @@ const PrettyColor = styled.span`
 
 function App() {
   return (
-    <div>
-      <PrettyColor>hello </PrettyColor>from App
-    </div>
+    <>
+      <GlobalStyles />
+      <div>
+        <PrettyColor>hello for sure </PrettyColor>from App
+      </div>
+    </>
   );
 }
 

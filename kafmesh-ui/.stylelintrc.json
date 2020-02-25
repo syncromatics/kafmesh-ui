@@ -7,8 +7,19 @@
     "stylelint-config-styled-components",
     "stylelint-prettier/recommended"
   ],
-  "plugins": ["stylelint-prettier"],
+  "plugins": [
+    "stylelint-prettier",
+    "stylelint-no-unsupported-browser-features",
+    "stylelint-high-performance-animation"
+  ],
   "rules": {
-    "prettier/prettier": true
+    "prettier/prettier": true,
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ],
+    "plugin/no-low-performance-animation-properties": true
   }
 }

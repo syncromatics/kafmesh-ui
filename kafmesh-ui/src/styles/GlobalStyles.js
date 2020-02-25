@@ -3,7 +3,7 @@ import colors from './Colors';
 import cssReset from './CSSReset';
 
 const GlobalStyles = createGlobalStyle`
-	${cssReset} /* stylelint-disable-line value-keyword-case */
+	${cssReset}
 
 	* {
 		box-sizing: border-box;

@@ -11,6 +11,7 @@ const palette = {
 const colors = {
   background: palette.gallery,
   foreground: palette.alabaster,
+  borderSimple: palette.black,
   textOnBG: palette.jetBlack,
   titleText: palette.black,
   ok: palette.green,

@@ -4,6 +4,7 @@ import { trackFontHeavy } from '../styles/Font';
 
 const HeaderContainer = styled.div`
   width: 100%;
+  min-height: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -16,7 +17,7 @@ const HeaderItems = styled.span`
 
 const Header = () => (
   <HeaderContainer>
-    <HeaderItems>KafMesh</HeaderItems>
+    <HeaderItems>Kafmesh</HeaderItems>
   </HeaderContainer>
 );
 

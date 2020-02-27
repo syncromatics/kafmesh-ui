@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 
+import { KafmeshProvider } from './State';
+
 import Header from './Header';
 import Body from './Body';
 import Footer from './Footer';
@@ -25,13 +27,15 @@ const AppItems = styled.span`
 const App = () => (
   <>
     <GlobalStyles />
-    <AppContainer>
-      <AppItems>
-        <Header />
-        <Body />
-        <Footer />
-      </AppItems>
-    </AppContainer>
+    <KafmeshProvider>
+      <AppContainer>
+        <AppItems>
+          <Header />
+          <Body />
+          <Footer />
+        </AppItems>
+      </AppContainer>
+    </KafmeshProvider>
   </>
 );
 

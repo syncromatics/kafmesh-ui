@@ -9,7 +9,7 @@ const BodyContainer = styled.div`
   height: 100%;
   display: flex;
 `;
-
+// Flex # corresponds to vertical section divider location
 const Body = () => (
   <BodyContainer>
     <ViewPort flex={3} />

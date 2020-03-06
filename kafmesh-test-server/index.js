@@ -1,25 +1,20 @@
+const { prisma } = require('./generated/prisma-client');
 const dummyElements = [
   { data: { id: 'master' } },
   { data: { id: 'masterComp', parent: 'master', description: 'hellloooooooooooooo' } },
-  {
-    data: {
-      id: 'masterReverb',
-      parent: 'master',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
-    },
-  },
+  { data: { id: 'masterReverb', parent: 'master', description: 'This is ay fasg ways' } },
   {
     data: {
       id: 'masterLimiter',
       parent: 'master',
-      description: 'This is a node which processes a bunch of dataasdfly fascinating ways',
+      description: 'This iss a bunys',
     },
   },
   {
     data: {
       id: 'masterOut',
       parent: 'master',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node which procesly fng ways',
     },
   },
 
@@ -29,7 +24,7 @@ const dummyElements = [
       id: 'oscillator',
       parent: 'main',
       shape: 'triangle',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node wh bunch ofinating ways',
     },
   },
   {
@@ -37,7 +32,7 @@ const dummyElements = [
       id: 'filter1',
       parent: 'main',
       shape: 'triangle',
-      description: 'Thasdf which processes a bunch of data is really fascinating ways',
+      description: 'Thasdf which procesy fascinating ways',
     },
   },
   {
@@ -45,7 +40,7 @@ const dummyElements = [
       id: 'filter2',
       parent: 'main',
       shape: 'triangle',
-      description: 'This is a node which processes asdfasdfasdfta is really fascinating ways',
+      description: 'This cesses asdlly fascinating ways',
     },
   },
   {
@@ -53,7 +48,7 @@ const dummyElements = [
       id: 'envelope',
       parent: 'main',
       shape: 'triangle',
-      description: 'This is a node which processes a bunch of data is really fascasdf ways',
+      description: 'ocesses a bu fascasdf ways',
     },
   },
   {
@@ -61,7 +56,7 @@ const dummyElements = [
       id: 'volume',
       parent: 'main',
       shape: 'triangle',
-      description: 'This isasdfch processes a bunch of data is really fascinating ways',
+      description: 'Thes a bunch of datting ways',
     },
   },
 
@@ -70,35 +65,35 @@ const dummyElements = [
     data: {
       id: 'mod1In',
       parent: 'modulation1',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node ting ways',
     },
   },
   {
     data: {
       id: 'mod1Scale',
       parent: 'modulation1',
-      description: 'This is a asdfasdfes a bunch of data is really fascinating ways',
+      description: 'This is y fascinating ways',
     },
   },
   {
     data: {
       id: 'mod1Ratio',
       parent: 'modulation1',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a ncinating ways',
     },
   },
   {
     data: {
       id: 'mod1Mul',
       parent: 'modulation1',
-      description: 'This is a node which processes a bunch of data is really fasasdfing ways',
+      description: 'This is is really fasasdfing ways',
     },
   },
   {
     data: {
       id: 'mod1Out',
       parent: 'modulation1',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node whidata y fascinating ways',
     },
   },
 
@@ -107,14 +102,14 @@ const dummyElements = [
     data: {
       id: 'modulation2',
       parent: 'modulation2',
-      description: 'This iasdfasdfses a bunch of data is really fascinating ways',
+      description: 'This iasdfasdfses a bunways',
     },
   },
   {
     data: {
       id: 'mod2In',
       parent: 'aux',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node which processes a bunch of ',
     },
   },
   {
@@ -122,7 +117,7 @@ const dummyElements = [
       id: 'mod2Scale',
       parent: 'modulation2',
       shape: 'triangle',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node wh',
     },
   },
   {
@@ -130,7 +125,7 @@ const dummyElements = [
       id: 'mod2Ratio',
       parent: 'modulation2',
       shape: 'triangle',
-      description: 'This is a node which processes a bunch of data is really fascinating ways',
+      description: 'This is a node which processes a bun',
     },
   },
   {
@@ -138,7 +133,7 @@ const dummyElements = [
       id: 'mod2Mul',
       parent: 'modulation2',
       shape: 'triangle',
-      description: 'This is a node which processes a bunch of dataasdfasdfnating ways',
+      description: 'This is anch of dataasdfasdfnating ways',
     },
   },
   {
@@ -146,7 +141,7 @@ const dummyElements = [
       id: 'mod2Out',
       parent: 'modulation2',
       shape: 'triangle',
-      description: 'Thisasdfde which processes a bunch of data is really fascinating ways',
+      description: 'Thisasdfde which processes ting ways',
     },
   },
 
@@ -182,4 +177,23 @@ const dummyElements = [
   { data: { id: 'w19', source: 'mod2Out', target: 'envelope' } },
 ];
 
-export default dummyElements;
+async function main() {
+  dummyElements.forEach(async ({ data }) => {
+    let newData = await prisma.createData({
+      name: data.id,
+      parent: data.parent,
+      description: data.description,
+      shape: data.shape && data.shape.toUpperCase(),
+      source: data.source,
+      target: data.target,
+      label: data.label,
+    });
+    console.log(`Created new dummy data: (ID: ${newData.id})`);
+  });
+
+  // Read all users from the database and print them to the console
+  const allUsers = await prisma.dummies();
+  console.log(allUsers);
+}
+
+main().catch(e => console.error(e));

@@ -1,0 +1,16 @@
+type Data {
+  id: ID! @id
+  name: String
+  parent: String
+  description: String
+  shape: Shape
+  source: String
+  target: String
+  label: String
+}
+
+enum Shape {
+  TRIANGLE
+  ELLIPSES
+  RECTANGLE
+}

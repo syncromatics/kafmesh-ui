@@ -11,6 +11,7 @@
         "vars": "local",
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "react/require-default-props": 0
   }
 }

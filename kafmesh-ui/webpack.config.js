@@ -2,8 +2,9 @@ var path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const htmlPlugin = new HtmlWebPackPlugin({
-  template: './public/index.html',
-  filename: './public/index.html',
+  template: './index.html',
+  filename: './index.html',
+  favicon: './favicon.png',
 });
 
 module.exports = {
@@ -22,6 +23,15 @@ module.exports = {
           },
           'stylelint-custom-processor-loader',
         ],
+      },
+      {
+        test: /\.(png|jpeg)$/,
+        use: ['url-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+        exclude: /node_modules/,
+        use: ['file-loader?name=[name].[ext]'], // ?name=[name].[ext] is only necessary to preserve the original file name
       },
     ],
   },

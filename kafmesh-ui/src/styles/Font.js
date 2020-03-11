@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { colors } from './Colors';
+import colors from './Colors';
 
 export const trackFont = () => css`
   font-family: 'AvenirNext-Medium', 'Avenir Next W01', sans-serif;

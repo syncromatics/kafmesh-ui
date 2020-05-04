@@ -3,13 +3,7 @@ import { gql } from 'apollo-boost';
 
 const dummyData = gql`
   {
-    datas {
-      parent
-      description
-      shape
-      source
-      target
-      label
+    services {
       name
     }
   }
@@ -20,11 +14,10 @@ function Elements() {
   const elements = {
     data:
       data &&
-      data.datas.map(item => ({
+      data.services.map(item => ({
         data: {
           ...item,
           id: item.name,
-          shape: item.shape && item.shape.toLowerCase(),
         },
       })),
     loading,

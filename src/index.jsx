@@ -11,13 +11,13 @@ import App from './App';
 Cytoscape.use(COSEBilkent);
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4466',
-  cache: new InMemoryCache(),
+	uri: 'http://localhost/query',
+	cache: new InMemoryCache()
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
+	<ApolloProvider client={client}>
+		<App />
+	</ApolloProvider>,
+	document.getElementById('root')
 );

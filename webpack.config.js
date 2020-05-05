@@ -4,12 +4,18 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const htmlPlugin = new HtmlWebPackPlugin({
   template: './index.html',
   filename: './index.html',
-  favicon: './favicon.png',
+  favicon: './favicon.png'
 });
 
 module.exports = {
   module: {
     rules: [
+      {
+        test: /\.tsx$/,
+        use: ['babel-loader', {
+          loader: 'awesome-typescript-loader'
+        }],
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -18,33 +24,33 @@ module.exports = {
           {
             loader: 'eslint-loader',
             options: {
-              fix: true,
-            },
+              fix: true
+            }
           },
-          'stylelint-custom-processor-loader',
-        ],
+          'stylelint-custom-processor-loader'
+        ]
       },
       {
         test: /\.(png|jpeg)$/,
-        use: ['url-loader'],
+        use: ['url-loader']
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
         exclude: /node_modules/,
-        use: ['file-loader?name=[name].[ext]'], // ?name=[name].[ext] is only necessary to preserve the original file name
+        use: ['file-loader?name=[name].[ext]'] // ?name=[name].[ext] is only necessary to preserve the original file name
       },
-    ],
+    ]
   },
   plugins: [htmlPlugin],
   resolve: {
-    extensions: ['.js', '.jsx'],
-    modules: ['node_modules'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    modules: ['node_modules']
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist/public'),
     compress: true,
     port: 9001,
-    progress: true,
+    progress: true
   },
   stats: {
     // Logging in the console: alternatively  " stats: 'minimal' " for less and " stats: 'verbose' " for more
@@ -54,6 +60,6 @@ module.exports = {
     assetsSort: '!size',
     version: false, // Webpack version
     entrypoints: false, // verbose
-    modules: false, // verbose
+    modules: false // verbose
   },
 };

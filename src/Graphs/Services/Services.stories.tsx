@@ -7,41 +7,38 @@ storiesOf('Graphs', module).add('Service Graph', () => {
 		services: [
 			{
 				id: 1,
-				name: 'Telemetry Service'
+				name: 'Telemetry Service',
+				dependsOn: [ 2 ]
 			},
 			{
 				id: 2,
-				name: 'Vehicles Service'
+				name: 'Vehicles Service',
+				dependsOn: [ 1 ]
 			},
 			{
 				id: 3,
-				name: 'Signs Service'
+				name: 'Signs Service',
+				dependsOn: [ 2 ]
 			},
 			{
 				id: 4,
-				name: 'Speed Service'
+				name: 'Speed Service',
+				dependsOn: [ 1, 2 ]
 			}
 		],
-
-		connections: [
-			{
-				from: 1,
-				to: 2
-			},
-			{
-				from: 2,
-				to: 1
-			},
-			{
-				from: 1,
-				to: 4
-			},
-			{
-				from: 2,
-				to: 3
-			}
-		]
+		serviceClicked(id: number): void {
+			alert('Service clicked: ' + id);
+		},
+		edgeClicked(from: number, to: number): void {
+			alert('dependency clicked: from ' + from + ' to ' + to);
+		}
 	};
 
-	return <Services.Graph services={testServices.services} connections={testServices.connections} />;
+	return (
+		<Services.Graph
+			services={testServices.services}
+			serviceClicked={testServices.serviceClicked}
+			edgeClicked={testServices.edgeClicked}
+		/>
+	);
 });

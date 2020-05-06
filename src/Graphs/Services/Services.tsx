@@ -1,22 +1,8 @@
-import React, { FunctionComponent, useState, useEffect, createRef } from 'react';
-import CytoscapeComponent from 'react-cytoscapejs';
+import React, { FunctionComponent } from 'react';
 import { style } from './styles';
+import * as Graph from '../Graph/Graph';
 
 const layout = { name: 'cose', animate: false };
-
-type item = {
-	data: node | edge;
-};
-
-type node = {
-	id: number;
-	label: string;
-};
-
-type edge = {
-	source: number;
-	target: number;
-};
 
 type Service = {
 	id: number;
@@ -24,26 +10,26 @@ type Service = {
 	dependsOn: Array<number>;
 };
 
-const serviceNode = (service: Service): node => {
-	return { id: service.id, label: service.name };
+const serviceNode = (service: Service): Graph.node => {
+	return { type: 'node', id: service.id, label: service.name };
 };
 
-const dependencyEdge = (service: Service, dependency: number): edge => {
-	return { source: dependency, target: service.id };
+const dependencyEdge = (service: Service, dependency: number): Graph.edge => {
+	return { type: 'edge', source: dependency, target: service.id };
 };
 
-const dependencyEdges = (service: Service): edge[] => {
+const dependencyEdges = (service: Service): Graph.edge[] => {
 	return service.dependsOn.map((dependency) => {
 		return dependencyEdge(service, dependency);
 	});
 };
 
-const serviceReducer = (service: Service): (node | edge)[] => {
-	let items: (node | edge)[] = [ serviceNode(service) ];
+const serviceReducer = (service: Service): (Graph.node | Graph.edge)[] => {
+	const items: (Graph.node | Graph.edge)[] = [ serviceNode(service) ];
 	return items.concat(dependencyEdges(service));
 };
 
-const mapper = (services: Array<Service>): item[] => {
+const mapper = (services: Array<Service>): Graph.item[] => {
 	return services
 		.map(serviceReducer)
 		.reduce((a, b) => {
@@ -63,55 +49,27 @@ export type Props = {
 };
 
 export const Component: FunctionComponent<Props> = ({ services, onServiceClicked, onDependencyClicked }) => {
-	const [ dimensions, setDimensions ] = useState({
-		height: window.innerHeight,
-		width: window.innerWidth
-	});
-
-	let cyApi: any = createRef();
-
-	useEffect(() => {
-		function handleResize() {
-			setDimensions({
-				height: window.innerHeight,
-				width: window.innerWidth
-			});
+	const onItemSelected = (event: Graph.itemSelectEvent) => {
+		switch (event.item.type) {
+			case 'node':
+				onServiceClicked(event.item.id);
+				break;
+			case 'edge':
+				onDependencyClicked(event.item.source, event.item.target);
+				break;
 		}
-		window.addEventListener('resize', handleResize);
-	});
-
-	useEffect(
-		() => {
-			if (!cyApi) {
-				return;
-			}
-
-			cyApi.removeAllListeners();
-
-			cyApi.on('click', 'node', ({ target }) => {
-				onServiceClicked(Number(target.data().id));
-			});
-
-			cyApi.on('click', 'edge', ({ target }) => {
-				onDependencyClicked(Number(target.data().source), Number(target.data().target));
-			});
-		},
-		[ cyApi, onServiceClicked, onDependencyClicked ]
-	);
+	};
 
 	const elements = mapper(services);
 
 	return (
-		<CytoscapeComponent
+		<Graph.Component
 			elements={elements}
 			layout={layout}
-			style={{ fit: true, width: dimensions.width, height: dimensions.height }}
-			userZoomingEnabled={false}
-			userPanningEnabled={false}
-			cy={(cy: any) => {
-				cyApi = cy;
-			}}
+			zoomingEnabled={false}
+			panningEnabled={false}
 			stylesheet={style}
+			onItemSelected={onItemSelected}
 		/>
 	);
 };

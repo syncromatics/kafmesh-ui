@@ -1,8 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import * as Services from './Services';
+import { actions } from '@storybook/addon-actions';
 
 storiesOf('Graphs', module).add('Service Graph', () => {
+	let actionEvents = actions('onServiceClicked', 'onDependencyClicked');
 	let testServices: Services.Props = {
 		services: [
 			{
@@ -26,19 +28,13 @@ storiesOf('Graphs', module).add('Service Graph', () => {
 				dependsOn: [ 1, 2 ]
 			}
 		],
-		serviceClicked(id: number): void {
-			alert('Service clicked: ' + id);
+		onServiceClicked(id: number): void {
+			actionEvents.onServiceClicked(id);
 		},
-		edgeClicked(from: number, to: number): void {
-			alert('dependency clicked: from ' + from + ' to ' + to);
+		onDependencyClicked(from: number, to: number): void {
+			actionEvents.onDependencyClicked(from, to);
 		}
 	};
 
-	return (
-		<Services.Graph
-			services={testServices.services}
-			serviceClicked={testServices.serviceClicked}
-			edgeClicked={testServices.edgeClicked}
-		/>
-	);
+	return <Services.Component {...testServices} />;
 });

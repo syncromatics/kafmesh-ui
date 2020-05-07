@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { style } from './styles';
 import * as Graph from '../Graph/Graph';
 
-const layout = { name: 'cose', animate: false };
+const layout: Graph.coseLayout = { name: 'cose', animate: false };
 
 type Service = {
 	id: number;
@@ -11,11 +11,11 @@ type Service = {
 };
 
 const serviceNode = (service: Service): Graph.node => {
-	return { type: 'node', id: service.id, label: service.name };
+	return { type: 'node', id: String(service.id), label: service.name };
 };
 
 const dependencyEdge = (service: Service, dependency: number): Graph.edge => {
-	return { type: 'edge', source: dependency, target: service.id };
+	return { type: 'edge', source: String(dependency), target: String(service.id) };
 };
 
 const dependencyEdges = (service: Service): Graph.edge[] => {
@@ -30,32 +30,63 @@ const serviceReducer = (service: Service): (Graph.node | Graph.edge)[] => {
 };
 
 const mapper = (services: Array<Service>): Graph.item[] => {
-	return services
-		.map(serviceReducer)
-		.reduce((a, b) => {
-			return a.concat(b);
-		})
-		.map((item) => {
-			return {
-				data: item
-			};
-		});
+	return services.map(serviceReducer).reduce((a, b) => a.concat(b)).map((item) => {
+		return {
+			data: item
+		};
+	});
+};
+
+type serviceItem = {
+	type: 'service';
+	id: number;
+};
+
+type dependencyItem = {
+	type: 'dependency';
+	serviceId: number;
+	dependency: number;
+};
+
+type noneItem = {
+	type: 'none';
+};
+
+export type itemSelectedEvent = {
+	item: serviceItem | dependencyItem | noneItem;
 };
 
 export type Props = {
 	services: Array<Service>;
-	onServiceClicked(serviceId: number): void;
-	onDependencyClicked(from: number, to: number): void;
+	onItemSelected(event: itemSelectedEvent): void;
 };
 
-export const Component: FunctionComponent<Props> = ({ services, onServiceClicked, onDependencyClicked }) => {
-	const onItemSelected = (event: Graph.itemSelectEvent) => {
+export const Component: FunctionComponent<Props> = ({ services, onItemSelected }) => {
+	const handleSelect = (event: Graph.itemSelectEvent) => {
 		switch (event.item.type) {
 			case 'node':
-				onServiceClicked(event.item.id);
+				onItemSelected({
+					item: {
+						type: 'service',
+						id: Number(event.item.id)
+					}
+				});
 				break;
 			case 'edge':
-				onDependencyClicked(event.item.source, event.item.target);
+				onItemSelected({
+					item: {
+						type: 'dependency',
+						serviceId: Number(event.item.target),
+						dependency: Number(event.item.source)
+					}
+				});
+				break;
+			case 'none':
+				onItemSelected({
+					item: {
+						type: 'none'
+					}
+				});
 				break;
 		}
 	};
@@ -69,7 +100,7 @@ export const Component: FunctionComponent<Props> = ({ services, onServiceClicked
 			zoomingEnabled={false}
 			panningEnabled={false}
 			stylesheet={style}
-			onItemSelected={onItemSelected}
+			onItemSelected={handleSelect}
 		/>
 	);
 };

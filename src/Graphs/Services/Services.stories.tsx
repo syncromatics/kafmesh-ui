@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import * as Services from './Services';
 import { actions } from '@storybook/addon-actions';
 
-storiesOf('Graphs', module).add('Service Graph', () => {
-	let actionEvents = actions('onServiceClicked', 'onDependencyClicked');
+storiesOf('Graphs', module).add('Services Graph', () => {
+	let actionEvents = actions('onSelected');
 	let testServices: Services.Props = {
 		services: [
 			{
@@ -28,11 +28,8 @@ storiesOf('Graphs', module).add('Service Graph', () => {
 				dependsOn: [ 1, 2 ]
 			}
 		],
-		onServiceClicked(id: number): void {
-			actionEvents.onServiceClicked(id);
-		},
-		onDependencyClicked(from: number, to: number): void {
-			actionEvents.onDependencyClicked(from, to);
+		onItemSelected(event: Services.itemSelectedEvent): void {
+			actionEvents.onSelected(event);
 		}
 	};
 

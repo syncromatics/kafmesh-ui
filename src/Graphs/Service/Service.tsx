@@ -4,13 +4,6 @@ import { style } from './style';
 import * as models from './models';
 import { mapToGraphElements } from './mapper';
 
-// const layout: Graph.circleLayout = {
-// 	name: 'circle',
-// 	animate: true,
-// 	avoidOverlap: true,
-// 	nodeDimensionsIncludeLabels: true
-// };
-
 const layout: Graph.coseBilkentLayout = { name: 'cose-bilkent' };
 
 export type Props = {

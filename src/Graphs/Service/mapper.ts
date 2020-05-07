@@ -75,8 +75,8 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 		}
 	};
 
-	for (let topic of topics.values()) {
-		for (let item of topic) {
+	for (const topic of topics.values()) {
+		for (const item of topic) {
 			elements.push(item);
 		}
 	}

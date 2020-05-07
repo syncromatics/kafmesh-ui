@@ -1,14 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { style } from './styles';
 import * as Graph from '../Graph/Graph';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 const layout: Graph.coseLayout = { name: 'cose', animate: false };
-
-type Service = {
-	id: number;
-	name: string;
-	dependsOn: Array<number>;
-};
 
 const serviceNode = (service: Service): Graph.node => {
 	return { type: 'node', id: String(service.id), label: service.name };
@@ -20,7 +16,7 @@ const dependencyEdge = (service: Service, dependency: number): Graph.edge => {
 
 const dependencyEdges = (service: Service): Graph.edge[] => {
 	return service.dependsOn.map((dependency) => {
-		return dependencyEdge(service, dependency);
+		return dependencyEdge(service, dependency.id);
 	});
 };
 
@@ -56,12 +52,43 @@ export type itemSelectedEvent = {
 	item: serviceItem | dependencyItem | noneItem;
 };
 
-export type Props = {
+export const ALL_SERVICES_QUERY = gql`
+	query All_Services_Query {
+		services {
+			id
+			name
+			dependsOn {
+				id
+			}
+		}
+	}
+`;
+
+export interface Data {
 	services: Array<Service>;
+}
+
+interface Service {
+	id: number;
+	name: string;
+	dependsOn: Array<Dependency>;
+}
+
+interface Dependency {
+	id: number;
+}
+
+export type Props = {
 	onItemSelected(event: itemSelectedEvent): void;
 };
 
-export const Component: FunctionComponent<Props> = ({ services, onItemSelected }) => {
+export const Component: FunctionComponent<Props> = ({ onItemSelected }) => {
+	const { loading, data } = useQuery<Data, any>(ALL_SERVICES_QUERY);
+
+	if (loading) {
+		return <div>Loading</div>;
+	}
+
 	const handleSelect = (event: Graph.itemSelectEvent) => {
 		switch (event.item.type) {
 			case 'node':
@@ -91,7 +118,7 @@ export const Component: FunctionComponent<Props> = ({ services, onItemSelected }
 		}
 	};
 
-	const elements = mapper(services);
+	const elements = mapper(data.services);
 
 	return (
 		<Graph.Component

@@ -2,6 +2,8 @@ import { Express, Request, Response } from 'express';
 import express from 'express';
 import * as path from 'path';
 import proxy from 'express-http-proxy';
+import http from 'http';
+import * as terminus from '@godaddy/terminus';
 
 export class Server {
 	private app: Express;
@@ -25,8 +27,23 @@ export class Server {
 		});
 	}
 
+	private async onHealthCheck() {
+		// checks if the system is healthy, like the db connection is live
+		// resolves, if health, rejects if not
+	}
+
+	private async onSignal() {
+		console.log('server shutting down');
+	}
+
 	public start(port: number): void {
+		const server = http.createServer(this.app);
+		terminus.createTerminus(server, {
+			signal: 'SIGINT',
+			healthChecks: { '/healthcheck': this.onHealthCheck },
+			onSignal: this.onSignal
+		});
 		console.log('started server');
-		this.app.listen(port, () => console.log(`Server listening on port ${port}!`));
+		server.listen(port, () => console.log(`Server listening on port ${port}!`));
 	}
 }

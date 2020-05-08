@@ -71,9 +71,8 @@ module.exports = {
   },
   output: {
     path: __dirname + '/../dist/app',
-    filename: '[name]-[hash].js',
-    chunkFilename: '[name]-[hash].js',
-    publicPath: ''
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   stats: {
     // Logging in the console: alternatively  " stats: 'minimal' " for less and " stats: 'verbose' " for more

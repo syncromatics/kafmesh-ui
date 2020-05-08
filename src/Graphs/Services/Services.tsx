@@ -9,6 +9,9 @@ const query = gql`
 		services {
 			id
 			name
+			dependsOn {
+				id
+			}
 		}
 	}
 `;
@@ -125,8 +128,7 @@ const dependencyEdges = (service: service): Graph.edge[] => {
 
 const serviceReducer = (service: service): (Graph.node | Graph.edge)[] => {
 	const items: (Graph.node | Graph.edge)[] = [ serviceNode(service) ];
-	return items;
-	//return items.concat(dependencyEdges(service));
+	return items.concat(dependencyEdges(service));
 };
 
 const mapper = (services: Array<service>): Graph.item[] => {

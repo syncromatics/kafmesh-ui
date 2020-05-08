@@ -10,16 +10,15 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 
 	const toTopic = function(target: models.topic, source: string) {
 		if (topics.has(target.id)) {
-			for (let topic of topics.get(target.id)) {
-				if (topic.data.type != 'node') continue;
-				elements.push({
-					data: {
-						type: 'edge',
-						source: source,
-						target: topic.data.id
-					}
-				});
-			}
+			const topic = topics.get(target.id);
+			if (topic.data.type != 'node') return;
+			elements.push({
+				data: {
+					type: 'edge',
+					target: topic.data.id,
+					source: source
+				}
+			});
 		} else {
 			if (!hasUnkown) {
 				elements.push({
@@ -43,16 +42,15 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 	};
 	const fromTopic = function(source: models.topic, target: string) {
 		if (topics.has(source.id)) {
-			for (let topic of topics.get(source.id)) {
-				if (topic.data.type != 'node') continue;
-				elements.push({
-					data: {
-						type: 'edge',
-						target: target,
-						source: topic.data.id
-					}
-				});
-			}
+			const topic = topics.get(source.id);
+			if (topic.data.type != 'node') return;
+			elements.push({
+				data: {
+					type: 'edge',
+					target: target,
+					source: topic.data.id
+				}
+			});
 		} else {
 			if (!hasUnkown) {
 				elements.push({
@@ -76,9 +74,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 	};
 
 	for (const topic of topics.values()) {
-		for (let item of topic) {
-			elements.push(item);
-		}
+		elements.push(topic);
 	}
 
 	elements.push({
@@ -152,6 +148,19 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 			fromTopic(viewSink.topic, 'viewSink_' + viewSink.id);
 		}
 
+		for (let viewSource of component.viewSources) {
+			elements.push({
+				data: {
+					type: 'node',
+					id: 'viewSource_' + viewSource.id,
+					label: '',
+					parent: 'component_' + component.id
+				},
+				classes: 'viewSource'
+			});
+			toTopic(viewSource.topic, 'viewSource_' + viewSource.id);
+		}
+
 		for (let processor of component.processors) {
 			const id = 'processor_' + processor.id;
 			elements.push({
@@ -186,14 +195,14 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 	return elements;
 }
 
-function getTopicSources(service: models.service): Map<number, Graph.item[]> {
-	const results = new Map<number, Graph.item[]>();
+function getTopicSources(service: models.service): Map<number, Graph.item> {
+	const results = new Map<number, Graph.item>();
 
 	const addTopic = function(topic: models.topic, component: number) {
-		if (!results.has(topic.id)) {
-			results.set(topic.id, []);
+		if (results.has(topic.id)) {
+			return;
 		}
-		results.get(topic.id).push({
+		results.set(topic.id, {
 			data: {
 				type: 'node',
 				id: 'topic_' + topic.id,
@@ -215,6 +224,9 @@ function getTopicSources(service: models.service): Map<number, Graph.item[]> {
 			if (processor.persistence == null) continue;
 
 			addTopic(processor.persistence, component.id);
+		}
+		for (let viewSource of component.viewSources) {
+			addTopic(viewSource.topic, component.id);
 		}
 	}
 

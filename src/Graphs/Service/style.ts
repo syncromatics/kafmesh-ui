@@ -135,8 +135,6 @@ export const style = [
 			label: 'data(label)',
 			'text-halign': 'center',
 			'text-valign': 'center',
-			'text-max-width': '100px',
-			'text-wrap': 'ellipsis',
 			'font-size': '12'
 		}
 	},

@@ -28,6 +28,7 @@ export type circleLayout = {
 
 export type coseBilkentLayout = {
 	name: 'cose-bilkent';
+	animate: boolean;
 };
 
 export type coseLayout = {

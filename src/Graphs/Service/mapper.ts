@@ -8,9 +8,9 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 
 	let hasUnkown = false;
 
-	const toTopic = function(id: number, source: string) {
-		if (topics.has(id)) {
-			for (let topic of topics.get(id)) {
+	const toTopic = function(target: models.topic, source: string) {
+		if (topics.has(target.id)) {
+			for (let topic of topics.get(target.id)) {
 				if (topic.data.type != 'node') continue;
 				elements.push({
 					data: {
@@ -41,9 +41,9 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 			});
 		}
 	};
-	const fromTopic = function(id: number, target: string) {
-		if (topics.has(id)) {
-			for (let topic of topics.get(id)) {
+	const fromTopic = function(source: models.topic, target: string) {
+		if (topics.has(source.id)) {
+			for (let topic of topics.get(source.id)) {
 				if (topic.data.type != 'node') continue;
 				elements.push({
 					data: {
@@ -76,7 +76,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 	};
 
 	for (const topic of topics.values()) {
-		for (const item of topic) {
+		for (let item of topic) {
 			elements.push(item);
 		}
 	}
@@ -110,7 +110,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 				},
 				classes: 'source'
 			});
-			toTopic(source.topic.id, 'source_' + source.id);
+			toTopic(source.topic, 'source_' + source.id);
 		}
 
 		for (let view of component.views) {
@@ -123,7 +123,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 				},
 				classes: 'view'
 			});
-			fromTopic(view.topic.id, 'view_' + view.id);
+			fromTopic(view.topic, 'view_' + view.id);
 		}
 
 		for (let sink of component.sinks) {
@@ -136,7 +136,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 				},
 				classes: 'sink'
 			});
-			fromTopic(sink.topic.id, 'sink_' + sink.id);
+			fromTopic(sink.topic, 'sink_' + sink.id);
 		}
 
 		for (let viewSink of component.viewSinks) {
@@ -149,7 +149,7 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 				},
 				classes: 'viewSink'
 			});
-			fromTopic(viewSink.topic.id, 'viewSink_' + viewSink.id);
+			fromTopic(viewSink.topic, 'viewSink_' + viewSink.id);
 		}
 
 		for (let processor of component.processors) {
@@ -165,21 +165,21 @@ export function mapToGraphElements(service: models.service): Graph.item[] {
 			});
 
 			for (let input of processor.inputs) {
-				fromTopic(input.id, id);
+				fromTopic(input.topic, id);
 			}
 			for (let output of processor.outputs) {
-				toTopic(output.topic.id, id);
+				toTopic(output.topic, id);
 			}
 			for (let join of processor.joins) {
-				fromTopic(join.id, id);
+				fromTopic(join.topic, id);
 			}
 			for (let lookup of processor.lookups) {
-				fromTopic(lookup.id, id);
+				fromTopic(lookup.topic, id);
 			}
 			if (processor.persistence == null) continue;
 
-			toTopic(processor.persistence.id, id);
-			fromTopic(processor.persistence.id, id);
+			toTopic(processor.persistence, id);
+			fromTopic(processor.persistence, id);
 		}
 	}
 

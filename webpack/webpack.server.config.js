@@ -1,20 +1,18 @@
 var path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-
-const htmlPlugin = new HtmlWebPackPlugin({
-  template: './index.html',
-  filename: './index.html',
-  favicon: './favicon.png'
-});
 
 module.exports = {
+  context: path.resolve(__dirname, '..'),
+  entry: {
+    'main': [
+      './server/index.ts'
+    ]
+  },
   module: {
     rules: [
       {
-        test: /\.tsx$/,
-        use: ['babel-loader', {
-          loader: 'awesome-typescript-loader'
-        }],
+        test: /\.ts$|\.tsx$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
       },
       {
         test: /\.jsx?$/,
@@ -41,7 +39,6 @@ module.exports = {
       },
     ]
   },
-  plugins: [htmlPlugin],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     modules: ['node_modules']
@@ -50,7 +47,17 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist/public'),
     compress: true,
     port: 9001,
-    progress: true
+    progress: true,
+    historyApiFallback: true,
+    proxy: {
+      '/query': {
+        target: 'http://127.0.0.1:5000'
+      }
+    }
+  },
+  output: {
+    path: __dirname + '/../dist/',
+    filename: 'server.js'
   },
   stats: {
     // Logging in the console: alternatively  " stats: 'minimal' " for less and " stats: 'verbose' " for more
@@ -62,4 +69,9 @@ module.exports = {
     entrypoints: false, // verbose
     modules: false // verbose
   },
+  target: 'node',
+  node: {
+    fs: 'empty',
+    net: 'empty'
+  }
 };

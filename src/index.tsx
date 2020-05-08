@@ -6,7 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './App';
 
 const client = new ApolloClient({
-	uri: 'http://localhost/query',
+	uri: '/query/',
 	cache: new InMemoryCache()
 });
 

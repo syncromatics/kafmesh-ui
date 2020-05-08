@@ -139,7 +139,9 @@ type ViewSource {
 type Query {
 	services: [Service!]!
 	pods: [Pod!]!
-	topics: [Topic!]!
+    topics: [Topic!]!
+
+    serviceById(id: ID!): Service
 }
 
 schema {

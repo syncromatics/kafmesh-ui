@@ -1,7 +1,9 @@
-import React, { FunctionComponent, useState, useEffect, createRef } from 'react';
+import React, { FunctionComponent, useState, useEffect, createRef, useRef, useLayoutEffect } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import COSEBilkent from 'cytoscape-cose-bilkent';
 import Cytoscape from 'cytoscape';
+import useComponentSize from '@rehooks/component-size';
+import { useDebouncedCallback } from 'use-debounce';
 
 Cytoscape.use(COSEBilkent);
 
@@ -74,28 +76,19 @@ export const Component: FunctionComponent<Props> = ({
 	zoomingEnabled,
 	panningEnabled
 }) => {
-	const [ dimensions, setDimensions ] = useState({
-		height: window.innerHeight,
-		width: window.innerWidth
-	});
-
 	let cyApi: any = createRef();
+	let container = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		function handleResize() {
-			setDimensions({
-				height: window.innerHeight,
-				width: window.innerWidth
-			});
-		}
-		window.addEventListener('resize', handleResize);
-	});
+	let dimensions = useComponentSize(container);
+
+	const [ redrawGraph ] = useDebouncedCallback(() => {
+		if (!cyApi) return;
+		cyApi.layout(layout).run();
+	}, 100);
 
 	useEffect(
 		() => {
-			if (cyApi == null) {
-				return;
-			}
+			if (!cyApi == null) return;
 
 			cyApi.removeAllListeners();
 
@@ -130,18 +123,28 @@ export const Component: FunctionComponent<Props> = ({
 		[ cyApi, onItemSelected ]
 	);
 
+	useEffect(
+		() => {
+			if (!cyApi) return;
+			redrawGraph();
+		},
+		[ dimensions ]
+	);
+
 	return (
-		<CytoscapeComponent
-			elements={elements}
-			layout={layout}
-			style={{ fit: true, width: dimensions.width, height: dimensions.height }}
-			userZoomingEnabled={zoomingEnabled}
-			userPanningEnabled={panningEnabled}
-			boxSelectionEnabled={false}
-			cy={(cy: any) => {
-				cyApi = cy;
-			}}
-			stylesheet={stylesheet}
-		/>
+		<div ref={container} style={{ width: '100%', height: '100%' }}>
+			<CytoscapeComponent
+				elements={elements}
+				layout={layout}
+				style={{ fit: true, width: dimensions.width, height: dimensions.height }}
+				userZoomingEnabled={zoomingEnabled}
+				userPanningEnabled={panningEnabled}
+				boxSelectionEnabled={false}
+				cy={(cy: any) => {
+					cyApi = cy;
+				}}
+				stylesheet={stylesheet}
+			/>
+		</div>
 	);
 };

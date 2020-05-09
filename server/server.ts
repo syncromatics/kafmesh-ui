@@ -22,6 +22,15 @@ export class Server {
 			})
 		);
 
+		this.app.use(
+			'/playground',
+			proxy(graphQLServer, {
+				proxyReqPathResolver: function(req) {
+					return '/';
+				}
+			})
+		);
+
 		this.app.all('*', (req: Request, res: Response): void => {
 			res.sendFile(path.resolve('./') + '/app/index.html');
 		});

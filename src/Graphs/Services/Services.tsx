@@ -39,13 +39,13 @@ export const Component: FunctionComponent<Props> = ({ onItemSelected }) => {
 
 	if (error) {
 		return (
-			<div>
+			<div style={{ width: '100%', height: '100%' }}>
 				{error.name} : {error.message}
 			</div>
 		);
 	}
 	if (loading) {
-		return <div>Loading</div>;
+		return <div style={{ width: '100%', height: '100%' }}>Loading</div>;
 	}
 
 	const handleSelect = (event: Graph.itemSelectEvent) => {

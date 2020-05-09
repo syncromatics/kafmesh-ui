@@ -20,6 +20,7 @@ type Component {
   viewSinks: [ViewSink!]!
   viewSources: [ViewSource!]!
   views: [View!]!
+  dependsOn: [Component!]!
 }
 
 type Pod {
@@ -142,6 +143,7 @@ type Query {
     topics: [Topic!]!
 
     serviceById(id: ID!): Service
+    componentById(id: ID!): Component
 }
 
 schema {

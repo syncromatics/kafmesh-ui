@@ -5,6 +5,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import Header from './Header';
 import ServicesView from './Body/ServicesView/ServicesView';
 import ServiceView from './Body/ServiceView/ServiceView';
+import ComponentView from './Body/ComponentView/ComponentView';
 import Footer from './Footer';
 
 const AppContainer = styled.div`
@@ -34,6 +35,7 @@ const App = () => (
 						<Services />
 					</Route>
 					<Route path="/services/:id" children={<Service />} />
+					<Route path="/components/:id" children={<Component />} />
 				</Switch>
 				<Footer />
 			</AppItems>
@@ -49,6 +51,12 @@ function Service() {
 	let { id } = useParams();
 
 	return <ServiceView service={id} />;
+}
+
+function Component() {
+	let { id } = useParams();
+
+	return <ComponentView component={id} />;
 }
 
 export default App;

@@ -1,7 +1,3 @@
-export type service = {
-	components: component[];
-};
-
 export type topic = {
 	id: number;
 	name: string;

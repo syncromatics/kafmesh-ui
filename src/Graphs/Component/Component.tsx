@@ -7,81 +7,79 @@ import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
 const query = gql`
-	query serviceById($id: ID!) {
-		serviceById(id: $id) {
-			components {
+	query componentById($id: ID!) {
+		componentById(id: $id) {
+			id
+			name
+			sources {
 				id
-				name
-				sources {
-					id
-					topic {
-						id
-						name
-					}
-				}
-				processors {
+				topic {
 					id
 					name
-					inputs {
-						id
-						topic {
-							id
-							name
-						}
-					}
-					joins {
-						id
-						topic {
-							id
-							name
-						}
-					}
-					outputs {
-						id
-						topic {
-							id
-							name
-						}
-					}
-					lookups {
-						id
-						topic {
-							id
-							name
-						}
-					}
-					persistence {
-						id
-						name
-					}
 				}
-				views {
+			}
+			processors {
+				id
+				name
+				inputs {
 					id
 					topic {
 						id
 						name
 					}
 				}
-				sinks {
+				joins {
 					id
 					topic {
 						id
 						name
 					}
 				}
-				viewSinks {
+				outputs {
 					id
 					topic {
 						id
 						name
 					}
 				}
-				viewSources {
+				lookups {
 					id
 					topic {
 						id
 						name
 					}
+				}
+				persistence {
+					id
+					name
+				}
+			}
+			views {
+				id
+				topic {
+					id
+					name
+				}
+			}
+			sinks {
+				id
+				topic {
+					id
+					name
+				}
+			}
+			viewSinks {
+				id
+				topic {
+					id
+					name
+				}
+			}
+			viewSources {
+				id
+				topic {
+					id
+					name
 				}
 			}
 		}
@@ -89,7 +87,7 @@ const query = gql`
 `;
 
 interface data {
-	serviceById: models.service;
+	componentById: models.component;
 }
 
 interface variables {
@@ -99,33 +97,33 @@ interface variables {
 const layout: Graph.coseBilkentLayout = { name: 'cose-bilkent', animate: false };
 
 export type Props = {
-	service: number;
+	component: number;
 };
 
-export const Component: FunctionComponent<Props> = ({ service }) => {
+export const Component: FunctionComponent<Props> = ({ component }) => {
 	const { loading, data, error } = useQuery<data, variables>(query, {
 		variables: {
-			id: service
+			id: component
 		}
 	});
 
 	if (error) {
 		return (
-			<div>
+			<div style={{ width: '100%', height: '100%' }}>
 				{error.name} : {error.message}
 			</div>
 		);
 	}
 	if (loading) {
-		return <div>Loading</div>;
+		return <div style={{ width: '100%', height: '100%' }}>Loading</div>;
 	}
-	if (data.serviceById == null) {
-		return <div>service {service} not found.</div>;
+	if (data.componentById == null) {
+		return <div style={{ width: '100%', height: '100%' }}>Component {component} not found.</div>;
 	}
 
 	const handleSelect = (item: Graph.itemSelectEvent) => {};
 
-	const elements = mapToGraphElements(data.serviceById);
+	const elements = mapToGraphElements(data.componentById);
 
 	return (
 		<Graph.Component

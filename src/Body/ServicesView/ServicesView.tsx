@@ -18,7 +18,7 @@ const Component: FunctionComponent<Props> = () => {
 		onItemSelected(event: Services.itemSelectedEvent): void {
 			switch (event.item.type) {
 				case 'service':
-					history.push('services/' + event.item.id);
+					history.push('/services/' + event.item.id);
 					break;
 			}
 		}

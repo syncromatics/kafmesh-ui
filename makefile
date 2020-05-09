@@ -1,5 +1,3 @@
-VERSION := $(shell gogitver)
-
 # exported values for use in docker-compose.yml
 export ASSEMBLY_VERSION = $(VERSION)
 export IMAGE_VERSION_SPECIFIC = $(VERSION)
@@ -30,7 +28,6 @@ clean:
 		-f docker-compose.yml \
 		down
 
-ship: ship-image ship-chart
-
-ship-image:
+ship: build
+	docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
 	docker-compose -f docker-compose.yml push

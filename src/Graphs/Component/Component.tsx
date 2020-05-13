@@ -96,11 +96,21 @@ interface variables {
 
 const layout: Graph.coseBilkentLayout = { name: 'cose-bilkent', animate: false };
 
-export type Props = {
-	component: number;
+export type itemSelectedEvent = {
+	item: processorItem;
 };
 
-export const Component: FunctionComponent<Props> = ({ component }) => {
+type processorItem = {
+	type: 'processorItem';
+	id: number;
+};
+
+export type Props = {
+	component: number;
+	onItemSelected(event: itemSelectedEvent): void;
+};
+
+export const Component: FunctionComponent<Props> = ({ component, onItemSelected }) => {
 	const { loading, data, error } = useQuery<data, variables>(query, {
 		variables: {
 			id: component
@@ -121,7 +131,20 @@ export const Component: FunctionComponent<Props> = ({ component }) => {
 		return <div style={{ width: '100%', height: '100%' }}>Component {component} not found.</div>;
 	}
 
-	const handleSelect = (item: Graph.itemSelectEvent) => {};
+	const handleSelect = (event: Graph.itemSelectEvent) => {
+		switch (event.item.type) {
+			case 'node':
+				if (event.item.id.includes('processor_')) {
+					onItemSelected({
+						item: {
+							type: 'processorItem',
+							id: Number(event.item.id.replace('processor_', ''))
+						}
+					});
+					return;
+				}
+		}
+	};
 
 	const elements = mapToGraphElements(data.componentById);
 

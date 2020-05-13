@@ -1,0 +1,172 @@
+{
+	"__schema": {
+		"types": [
+			{
+				"kind": "OBJECT",
+				"name": "ProcessorOutput",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "SetState",
+				"possibleTypes": []
+			},
+			{
+				"kind": "SCALAR",
+				"name": "Boolean",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "ViewSink",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Operation",
+				"possibleTypes": []
+			},
+			{
+				"kind": "SCALAR",
+				"name": "String",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Source",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "ProcessorJoin",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "View",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Input",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "GetState",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Service",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Pod",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Subscription",
+				"possibleTypes": []
+			},
+			{
+				"kind": "SCALAR",
+				"name": "Int",
+				"possibleTypes": []
+			},
+			{
+				"kind": "SCALAR",
+				"name": "Float",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Lookup",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Component",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "ProcessorInput",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Topic",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "ViewSource",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Output",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Query",
+				"possibleTypes": []
+			},
+			{
+				"kind": "INPUT_OBJECT",
+				"name": "WatchProcessorInput",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "ProcessorLookup",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Sink",
+				"possibleTypes": []
+			},
+			{
+				"kind": "SCALAR",
+				"name": "ID",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Join",
+				"possibleTypes": []
+			},
+			{
+				"kind": "OBJECT",
+				"name": "Processor",
+				"possibleTypes": []
+			},
+			{
+				"kind": "INTERFACE",
+				"name": "Action",
+				"possibleTypes": [
+					{
+						"name": "Join"
+					},
+					{
+						"name": "Lookup"
+					},
+					{
+						"name": "GetState"
+					},
+					{
+						"name": "SetState"
+					},
+					{
+						"name": "Output"
+					}
+				]
+			}
+		]
+	}
+}

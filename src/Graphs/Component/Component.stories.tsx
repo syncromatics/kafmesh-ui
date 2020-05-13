@@ -107,7 +107,8 @@ storiesOf('Graphs', module)
 	)
 	.add('Component Graph', () => {
 		let testServices: Service.Props = {
-			component: 12
+			component: 12,
+			onItemSelected: (item) => {}
 		};
 
 		return <Service.Component {...testServices} />;

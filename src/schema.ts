@@ -140,13 +140,74 @@ type ViewSource {
 type Query {
 	services: [Service!]!
 	pods: [Pod!]!
-    topics: [Topic!]!
+  topics: [Topic!]!
 
-    serviceById(id: ID!): Service
-    componentById(id: ID!): Component
+  serviceById(id: ID!): Service
+  componentById(id: ID!): Component
+}
+
+type Operation {
+	input: Input!
+	startTime: Int!
+	endTime: Int!
+	actions: [Action!]!
+}
+
+type Input {
+	topic: String!
+	message: String!
+	value: String!
+}
+
+interface Action {
+	topic: String!
+	message: String!
+	value: String!
+}
+
+type Join implements Action {
+	topic: String!
+	message: String!
+	value: String!
+}
+
+type Lookup implements Action {
+	topic: String!
+	message: String!
+	value: String!
+	key: String!
+}
+
+type GetState implements Action {
+	topic: String!
+	message: String!
+	value: String!
+}
+
+type SetState implements Action {
+	topic: String!
+	message: String!
+	value: String!
+}
+
+type Output implements Action {
+	topic: String!
+	message: String!
+	value: String!
+	key: String!
+}
+
+input WatchProcessorInput {
+	processorId: ID!
+	key: String!
+}
+
+type Subscription {
+	watchProcessor(options: WatchProcessorInput): Operation!
 }
 
 schema {
-	query: Query
+  query: Query
+  subscription: Subscription
 }
 `;

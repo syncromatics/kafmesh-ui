@@ -65,7 +65,8 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/query': {
-        target: 'http://127.0.0.1:5000'
+        target: 'http://127.0.0.1:5000',
+        ws: true
       }
     }
   },

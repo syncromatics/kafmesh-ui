@@ -10,5 +10,6 @@ if (graphQL == undefined || graphQL == '') {
 	throw 'KAFMESH_URL is not set';
 }
 
+console.log('kafmesh url: ' + graphQL);
 const server = new Server(app, graphQL);
 server.start(Number(port));
